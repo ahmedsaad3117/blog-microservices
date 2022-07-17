@@ -15,7 +15,7 @@ router.post("/posts/:id/comments", (req, resp) => {
 
   const commemts = commentsByPostId[req.params.id] || [];
 
-  commemts.push({ id: commentId, content });
+  commemts.push({ id: commentId, content, status: "pending" });
 
   commentsByPostId[req.params.id] = commemts;
 
@@ -23,18 +23,19 @@ router.post("/posts/:id/comments", (req, resp) => {
     type: "CommentCreated",
     data: {
       id: commentId,
-      content, 
+      content,
       postId: req.params.id,
+      status: "pending"
     },
   });
 
   resp.status(201).send(commemts);
 });
 
-router.post('/events',(req,res)=>{
-  console.log('comment event received',req.body.type)
+router.post("/events", (req, res) => {
+  console.log("comment event received", req.body.type);
 
-  res.send({})
-})
+  res.send({});
+});
 
 module.exports = router;
